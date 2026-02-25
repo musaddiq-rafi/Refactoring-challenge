@@ -13,10 +13,6 @@ import static java.util.Objects.isNull;
 /**
  * @author Raian Rahman
  * @since 4/19/2024
- *
- * <p><strong>Refactoring notes:</strong> Replaced {@code new Scanner(System.in)} in
- * both {@code addItem()} and {@code removeItem()} with the shared {@link InputReader}
- * singleton.
  */
 public class ShoppingCart implements Serializable {
 

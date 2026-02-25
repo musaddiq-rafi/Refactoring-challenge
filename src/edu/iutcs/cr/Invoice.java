@@ -10,21 +10,6 @@ import java.time.LocalDateTime;
 /**
  * @author Raian Rahman
  * @since 4/19/2024
- *
- * <p><strong>Refactoring notes (SRP / Constructor cleanliness):</strong>
- * The original constructor called {@code takePayment()}, which performed console I/O
- * ({@code scanner.nextBoolean()}) as a side effect.  Constructors should only initialise
- * the object's state &mdash; performing user interaction inside a constructor violates
- * the Single Responsibility Principle and makes the class impossible to unit-test without
- * a console.
- *
- * <ul>
- *   <li>The {@code isPaid} value is now passed into the constructor by the caller
- *       ({@code SystemFlowRunner.createInvoice()}) after reading it from the console there.</li>
- *   <li>The {@code takePayment()} method is removed; payment-reading logic lives in
- *       {@code SystemFlowRunner.createInvoice()} where it belongs.</li>
- *   <li>The {@code Scanner} import and dependency are eliminated.</li>
- * </ul>
  */
 public class Invoice implements Serializable {
 
@@ -34,12 +19,6 @@ public class Invoice implements Serializable {
     private final boolean isPaid;
     private final LocalDateTime dateTime;
 
-    /**
-     * @param buyer        the purchasing party
-     * @param seller       the selling party
-     * @param shoppingCart the cart of vehicles being purchased
-     * @param isPaid       whether payment has been confirmed by the caller
-     */
     public Invoice(Buyer buyer, Seller seller, ShoppingCart shoppingCart, boolean isPaid) {
         this.buyer = buyer;
         this.seller = seller;

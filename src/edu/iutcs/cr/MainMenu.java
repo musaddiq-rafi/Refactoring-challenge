@@ -5,15 +5,6 @@ import edu.iutcs.cr.util.InputReader;
 /**
  * @author Raian Rahman
  * @since 4/19/2024
- *
- * <p><strong>Refactoring notes:</strong>
- * <ul>
- *   <li>Replaced {@code new Scanner(System.in)} with the shared {@link InputReader}
- *       singleton.</li>
- *   <li>Removed {@code scanner.close()} – closing a Scanner that wraps {@code System.in}
- *       closes the underlying stream, making all subsequent reads across the entire
- *       application throw {@link java.util.NoSuchElementException}.</li>
- * </ul>
  */
 public class MainMenu {
 
