@@ -1,11 +1,11 @@
 package edu.iutcs.cr;
 
 import edu.iutcs.cr.system.SystemDatabase;
+import edu.iutcs.cr.util.InputReader;
 import edu.iutcs.cr.vehicles.Vehicle;
 
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.Scanner;
 import java.util.Set;
 
 import static java.util.Objects.isNull;
@@ -13,6 +13,10 @@ import static java.util.Objects.isNull;
 /**
  * @author Raian Rahman
  * @since 4/19/2024
+ *
+ * <p><strong>Refactoring notes:</strong> Replaced {@code new Scanner(System.in)} in
+ * both {@code addItem()} and {@code removeItem()} with the shared {@link InputReader}
+ * singleton.
  */
 public class ShoppingCart implements Serializable {
 
@@ -21,7 +25,7 @@ public class ShoppingCart implements Serializable {
 
     public ShoppingCart() {
         this.vehicles = new HashSet<>();
-        database = SystemDatabase.getInstance();
+        this.database = SystemDatabase.getInstance();
     }
 
     public Set<Vehicle> getVehicles() {
@@ -29,10 +33,8 @@ public class ShoppingCart implements Serializable {
     }
 
     public void addItem() {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Enter registration number of vehicle: ");
-        String registrationNumber = scanner.next();
+        System.out.print("Enter registration number of vehicle: ");
+        String registrationNumber = InputReader.getInstance().nextLine();
 
         Vehicle vehicle = database.findVehicleByRegistrationNumber(registrationNumber);
 
@@ -45,16 +47,15 @@ public class ShoppingCart implements Serializable {
     }
 
     public void removeItem() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter the registration number of the vehicle: ");
-        String registrationNumber = scanner.nextLine();
+        System.out.print("Enter the registration number of the vehicle: ");
+        String registrationNumber = InputReader.getInstance().nextLine();
         vehicles.remove(new Vehicle(registrationNumber));
     }
 
     public void viewCart() {
         System.out.println("\n\nShopping cart\n\n");
 
-        if(vehicles.isEmpty()) {
+        if (vehicles.isEmpty()) {
             System.out.println("Cart is empty");
             return;
         }
