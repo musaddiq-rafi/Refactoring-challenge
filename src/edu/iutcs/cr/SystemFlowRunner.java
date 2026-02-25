@@ -10,22 +10,6 @@ import edu.iutcs.cr.vehicles.VehicleFactory;
 /**
  * @author Raian Rahman
  * @since 4/19/2024
- *
- * <p><strong>Refactoring notes:</strong>
- * <ul>
- *   <li><strong>Factory Method:</strong> The long {@code if-else} chain in the original
- *       {@code addCar()} that both selected <em>and</em> constructed a vehicle was replaced
- *       by a call to {@link VehicleFactory#create(int)}, which is the authoritative place
- *       for vehicle construction (Open/Closed Principle).</li>
- *   <li><strong>Switch expression:</strong> Both the main-loop dispatch and the
- *       {@code createOrder()} inner-loop dispatch were converted from {@code if-else} chains
- *       to {@code switch} statements, which are clearer and exhaustive by construction.</li>
- *   <li><strong>InputReader singleton:</strong> All {@code new Scanner(System.in)} calls
- *       replaced with the shared {@link InputReader} singleton.</li>
- *   <li><strong>Invoice constructor:</strong> The {@code isPaid} flag is now read here
- *       (where the I/O belongs) and passed into {@link Invoice#Invoice(Buyer, Seller, ShoppingCart, boolean)}
- *       rather than being read inside the constructor.</li>
- * </ul>
  */
 public class SystemFlowRunner {
 
@@ -90,10 +74,6 @@ public class SystemFlowRunner {
         }
     }
 
-    // -------------------------------------------------------------------------
-    // Private helpers
-    // -------------------------------------------------------------------------
-
     private static void promptToViewMainMenu() {
         InputReader reader = InputReader.getInstance();
         int val = -1;
@@ -103,10 +83,6 @@ public class SystemFlowRunner {
         } while (val != 0);
     }
 
-    /**
-     * Prompts the user to choose a vehicle type and delegates construction to
-     * {@link VehicleFactory}, eliminating the original {@code if-else} chain.
-     */
     private static void addCar() {
         InputReader reader = InputReader.getInstance();
         SystemDatabase database = SystemDatabase.getInstance();
@@ -159,12 +135,6 @@ public class SystemFlowRunner {
         }
     }
 
-    /**
-     * Reads buyer/seller IDs and the payment flag, then creates and stores an
-     * {@link Invoice}.  The payment flag ({@code isPaid}) is read here &mdash; in the
-     * presentation/flow layer &mdash; and passed as a constructor argument rather than
-     * being read inside {@link Invoice}'s constructor.
-     */
     private static void createInvoice(ShoppingCart cart) {
         InputReader reader = InputReader.getInstance();
         SystemDatabase database = SystemDatabase.getInstance();

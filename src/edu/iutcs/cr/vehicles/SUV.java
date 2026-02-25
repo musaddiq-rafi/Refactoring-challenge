@@ -7,10 +7,6 @@ import java.io.Serializable;
 /**
  * @author Raian Rahman
  * @since 4/19/2024
- *
- * <p><strong>Refactoring notes:</strong> Replaced {@code new Scanner(System.in)} with
- * {@link InputReader} singleton; renamed {@code setOffRoad()} (no-arg, console I/O)
- * to {@code readOffRoad()} and added a value-based setter.
  */
 public class SUV extends Vehicle implements Serializable {
 
@@ -25,7 +21,6 @@ public class SUV extends Vehicle implements Serializable {
         return isOffRoad;
     }
 
-    /** Value-based setter – no console I/O. */
     public void setOffRoad(boolean offRoad) {
         this.isOffRoad = offRoad;
     }

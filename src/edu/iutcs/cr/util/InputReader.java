@@ -2,25 +2,7 @@ package edu.iutcs.cr.util;
 
 import java.util.Scanner;
 
-/**
- * Singleton wrapper around a single {@link Scanner} pointed at {@code System.in}.
- *
- * <p><strong>Why this exists:</strong> The original code created a {@code new Scanner(System.in)}
- * inside almost every method and, in a few places, called {@code scanner.close()}.
- * Closing a {@code Scanner} that wraps {@code System.in} closes the underlying stream
- * permanently &mdash; subsequent reads on any <em>other</em> Scanner will then throw
- * {@link java.util.NoSuchElementException}.  By funnelling all console I/O through
- * one shared instance this class eliminates:
- * <ul>
- *   <li>The resource-leak of repeatedly newing up Scanners without closing them.</li>
- *   <li>The accidental closure of {@code System.in} (notably {@code Hatchback.setCompact()}
- *       called {@code scanner.close()}).</li>
- * </ul>
- *
- * <p><strong>Design Pattern:</strong> Singleton
- *
- * @author refactored
- */
+
 public class InputReader {
 
     private static InputReader instance;

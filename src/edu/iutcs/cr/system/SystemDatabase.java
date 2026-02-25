@@ -13,19 +13,6 @@ import static java.util.Objects.isNull;
 /**
  * @author Raian Rahman
  * @since 4/19/2024
- *
- * <p><strong>Refactoring notes (Singleton Pattern – thread safety):</strong>
- * The original singleton used a simple null-check without synchronisation:
- * <pre>
- *     if (isNull(instance)) { instance = new SystemDatabase(); }
- * </pre>
- * In a multi-threaded environment two threads could both pass the null-check
- * simultaneously and create two instances.  The field is now declared
- * {@code volatile} and the check uses double-checked locking, which is the
- * idiomatic thread-safe lazy-initialisation pattern in Java.
- *
- * <p>All show* methods extract entity display logic that belongs here (the database
- * knows how to display its contents) – no functional change, names clarified.
  */
 public class SystemDatabase implements Serializable {
 
@@ -34,7 +21,6 @@ public class SystemDatabase implements Serializable {
     private Set<Vehicle> vehicles;
     private Set<Invoice> invoices;
 
-    // volatile ensures the write to `instance` is visible across threads
     private static volatile SystemDatabase instance;
 
     private SystemDatabase() {
@@ -45,7 +31,6 @@ public class SystemDatabase implements Serializable {
         invoices = dataStore.loadInvoices();
     }
 
-    /** Thread-safe lazy singleton getter using double-checked locking. */
     public static SystemDatabase getInstance() {
         if (isNull(instance)) {
             synchronized (SystemDatabase.class) {
@@ -65,18 +50,10 @@ public class SystemDatabase implements Serializable {
         dataStore.saveInvoices(invoices);
     }
 
-    // -------------------------------------------------------------------------
-    // Collection accessors
-    // -------------------------------------------------------------------------
-
     public Set<Buyer>   getBuyers()   { return buyers;   }
     public Set<Seller>  getSellers()  { return sellers;  }
     public Set<Vehicle> getVehicles() { return vehicles; }
     public Set<Invoice> getInvoices() { return invoices; }
-
-    // -------------------------------------------------------------------------
-    // Display helpers
-    // -------------------------------------------------------------------------
 
     public void showInventory() {
         if (vehicles.isEmpty()) {
@@ -112,10 +89,6 @@ public class SystemDatabase implements Serializable {
             System.out.println("\n\n\n");
         });
     }
-
-    // -------------------------------------------------------------------------
-    // Lookup helpers
-    // -------------------------------------------------------------------------
 
     public Vehicle findVehicleByRegistrationNumber(String registrationNumber) {
         Vehicle key = new Vehicle(registrationNumber);
